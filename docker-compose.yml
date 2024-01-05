@@ -1,0 +1,27 @@
+version: "3.8"
+
+x-build-args:
+  &build-args
+  image: "emotivoice"
+  network_mode: "host"
+  shm_size: '1gb'
+  ulimits:
+    memlock: -1
+    stack: 67108864
+  build:
+    context: .
+    dockerfile: Dockerfile-gpu
+  restart: unless-stopped
+
+
+services:
+  emotivoice:
+    container_name: emotivoice
+    <<: *build-args
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ '0' ]
+              capabilities: [ gpu ]

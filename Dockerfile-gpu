@@ -1,0 +1,12 @@
+FROM nvcr.io/nvidia/pytorch:23.03-py3
+
+# install app dependencies
+RUN pip3 install torch==1.11.0 torchaudio numpy numba scipy transformers==4.26.1 soundfile yacs
+RUN pip3 install pypinyin jieba jupyter
+RUN pip3 install streamlit g2p_en
+
+RUN mkdir /EmotiVoice
+COPY . /EmotiVoice/
+
+WORKDIR /EmotiVoice
+CMD ["/bin/bash"]
